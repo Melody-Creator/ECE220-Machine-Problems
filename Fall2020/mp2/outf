@@ -1,0 +1,46 @@
+
+Welcome to the LC-3 simulator.
+
+The contents of the LC-3 tools distribution, including sources, management
+tools, and data, are Copyright (c) 2003 Steven S. Lumetta.
+
+The LC-3 tools distribution is free software covered by the GNU General
+Public License, and you are welcome to modify it and/or distribute copies
+of it under certain conditions.  The file COPYING (distributed with the
+tools) specifies those conditions.  There is absolutely no warranty for
+the LC-3 tools distribution, as described in the file NO_WARRANTY (also
+distributed with the tools).
+
+Have fun.
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0000 R4=x0000 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+Loaded "fake.obj" and set PC to x3800
+Loaded "mp2.obj" and set PC to x3000
+         |  MONDAY | TUESDAY |WEDNESDAY| THURSDAY|  FRIDAY 
+   0600  |   This  |    is   |    a    |   fake  |<schedule
+   0700  |   for   | testing |   This  |    is   |    a    
+   0800  |   fake  |<schedule|   for   | testing |   This  
+   0900  |    is   |    a    |   fake  |<schedule|   for   
+   1000  | testing |   This  |    is   |    a    |   fake  
+   1100  |<schedule|   for   | testing |   This  |    is   
+   1200  |    a    |   fake  |<schedule|   for   | testing 
+   1300  |   This  |    is   |    a    |   fake  |<schedule
+   1400  |   for   | testing |   This  |    is   |    a    
+   1500  |   fake  |<schedule|   for   | testing |   This  
+   1600  |    is   |    a    |   fake  |<schedule|   for   
+   1700  | testing |   This  |    is   |    a    |   fake  
+   1800  |<schedule|   for   | testing |   This  |    is   
+   1900  |    a    |   fake  |<schedule|   for   | testing 
+   2000  |   This  |    is   |    a    |   fake  |<schedule
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x384B R4=x000F R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT

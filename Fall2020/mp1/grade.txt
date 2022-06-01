@@ -1,0 +1,43 @@
+# Functionality
+
+
+## Tests
+
+
+All tests passed
+
+
+## Grade
+
+print_slot passed: 15/15
+print_centered passed: 50/50
+Total print_slot memory or register issue: 0
+Total print_centered memory or register issue: 0
+
+Functionality score: 65/65
+
+
+# Style and comments
+
+
+Style(20%)
+10% - PRINT_SLOT not organized as nested conditionals: 10/10
+10% - PRINT_CENTERED not organized as nested conditionals: 10/10
+
+Comments, Clarity, and Write-up(15%)
+5% - each subroutine has a paragraph explaining what it does and how it must be called: 5/5
+10% - code is clear and well-commented: 10/10
+
+
+Style score: 35/35
+
+
+# Total grade
+
+
+Late submission: -0
+
+
+Total score: 100/100
+
+

@@ -1,0 +1,81 @@
+	.ORIG x4000
+
+	.FILL 31
+	.STRINGZ "lunch"
+	.FILL 6
+
+	.FILL 31
+	.STRINGZ "dinner"
+	.FILL 11
+
+	.FILL 10
+	.STRINGZ "ECE220"
+	.FILL 3
+
+	.FILL 10
+	.STRINGZ "lecture"
+	.FILL 4
+
+	.FILL 8
+	.STRINGZ "220 lab"
+	.FILL 5
+
+	.FILL 16
+	.STRINGZ "MATH213"
+	.FILL 10
+
+	.FILL 4
+	.STRINGZ "MATH213"
+	.FILL 12
+
+	.FILL 1
+	.STRINGZ "213 disc"
+	.FILL 3
+
+	.FILL 21
+	.STRINGZ "MATH241"
+	.FILL 4
+
+	.FILL 17
+	.STRINGZ "PHYS212"
+	.FILL 5
+
+	.FILL 4
+	.STRINGZ "PHYS212"
+	.FILL 9
+
+	.FILL 4
+	.STRINGZ "disc"
+	.FILL 10
+
+	.FILL 1
+	.STRINGZ "PHYS212"
+	.FILL 12
+
+	.FILL 1
+	.STRINGZ "lab"
+	.FILL 13
+
+	.FILL 2	; values
+	.STRINGZ "study"
+	.FILL 8
+
+	.FILL 2	; values
+	.STRINGZ "with"
+	.FILL 9
+
+	.FILL 2	; values
+	.STRINGZ "friends"
+	.FILL 10
+
+	.FILL 8	; values
+	.STRINGZ "date"
+	.FILL 13
+
+	.FILL 8	; values
+	.STRINGZ "night"
+	.FILL 14
+
+	.FILL -1
+
+	.END

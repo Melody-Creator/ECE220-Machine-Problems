@@ -1,0 +1,401 @@
+PUT YOUR MP7 REPORT IN THIS FILE.
+===========================================================
+(I) reverse
+-----*****-----
+Document:
+This program calls reverse_print on all command-line arguments, printing each in reverse 
+along with its length.
+It works by input first read the string, then call print_reverse function to print the 
+reverse of the string and calculate the length and return the value. Finally, the length
+of the string is printed.
+The print_reverse function works by calls itself with the suffix without the first 
+character, until the string is empty, then backtrack to print all characters in reverse
+order and accumulate the length as the return value.
+The only argument we need to input to the program is a string that needed to reverse.
+-----*****-----
+Identifying the bug:
+Test Case #1:
+Ever
+actual output:
+9 8 7 6 5 4 3 2 1 0
+What's on the stack now?
+
+"Ever" reversed is "revE" (length 32771)
+desired output: (the last line differs)
+"Ever" reversed is "revE" (length 4)
+
+Test Case #2:
+abc
+actual output:
+9 8 7 6 5 4 3 2 1 0
+What's on the stack now?
+
+"abc" reversed is "cba" (length 3)
+desired output:
+"abc" reversed is "cba" (length 3)
+
+Test Case #3:
+lumetta
+actual output:
+9 8 7 6 5 4 3 2 1 0
+What's on the stack now?
+
+"lumetta" reversed is "attemul" (length 7)
+desired output:
+"lumetta" reversed is "attemul" (length 7)
+
+Test Case #4:
+zjuizjuizjuirtffg
+actual output:
+9 8 7 6 5 4 3 2 1 0
+What's on the stack now?
+
+"zjuizjuizjuirtffg" reversed is "gfftriujziujziujz" (length 32784)
+desired output: (the last line differs)
+"zjuizjuizjuirtffg" reversed is "gfftriujziujziujz" (length 17)
+
+We can find the reversed string is correct, but the length of the string is sometimes
+incorrect.
+-----*****-----
+Trace the bug:
+Since the length is sometimes incorrect, I guess the bug may be related to some random-like 
+problems, like some variables not being initialized.
+
+1. Make a breakpoint at every time it goes into "print_reverse" by typing "break print_reverse". 
+It shows that "Breakpoint 1 at 0x716: file pr_buggy.c, line 40."
+
+2. Then run the program by typing “r Ever”
+It shows that
+Breakpoint 1, print_reverse (s=0x7fffffffe223 "Ever") at pr_buggy.c:40
+40	    if ('\0' == *s) {
+
+3. Then show the value of the local variable rest by typing "disp rest"
+It shows that
+1: rest = 0
+
+4. The let the execution continue until the next breakpoint by typing "continue"
+It shows that
+Breakpoint 1, print_reverse (s=0x7fffffffe224 "ver") at pr_buggy.c:40
+40	    if ('\0' == *s) {
+1: rest = 0
+
+5. Then repeatedly typing "enter" (continue) until it shows that
+Breakpoint 1, print_reverse (s=0x7fffffffe227 "") at pr_buggy.c:40
+40	    if ('\0' == *s) {
+1: rest = 32767
+
+7.Finally, type "continue" we can get  
+"Ever" reversed is "revE" (length 32771)
+
+The GDB shows the value of rest is wrong when we reach an empty string and need to return, so 
+we know that the bug is due to not initialzie the local variable rest.
+-----*****-----
+Analysis of the bug:
+The root cause of bug is that we don’t set the value of rest to 0 at first, so it may be assigned 
+to weird numbers instead of zero before it is returned.
+We can simply change "int32_t rest;" in pr_buggy.c to "int32_t rest = 0;" to fix the bug.
+===========================================================
+(II) primeNumber
+Identifying the bug:
+When we run the code (there is no input from command), the output is:        
+2 is prime.              
+3 is prime.
+4 is prime.  *
+5 is prime.
+7 is prime.
+9 is prime.  *
+11 is prime.
+13 is prime.
+17 is prime.
+19 is prime.
+23 is prime.
+25 is prime.  *
+29 is prime.
+31 is prime.
+37 is prime.
+41 is prime.
+43 is prime.
+47 is prime.
+49 is prime.  *
+53 is prime.
+59 is prime.
+61 is prime.
+67 is prime.
+71 is prime.
+73 is prime.
+79 is prime.
+83 is prime.
+89 is prime.
+97 is prime.
+101 is prime.
+103 is prime.
+107 is prime.
+109 is prime.
+113 is prime.
+121 is prime.  *
+127 is prime.
+131 is prime.
+137 is prime.
+139 is prime.
+149 is prime.
+151 is prime.
+157 is prime.
+163 is prime.
+167 is prime.
+169 is prime.  *
+173 is prime.
+179 is prime.
+181 is prime.
+191 is prime.
+193 is prime.
+197 is prime.
+199 is prime.
+211 is prime.
+223 is prime.
+227 is prime.
+229 is prime.
+233 is prime.
+239 is prime.
+241 is prime.
+251 is prime.
+257 is prime.
+263 is prime.
+269 is prime.
+271 is prime.
+277 is prime.
+281 is prime.
+283 is prime.
+289 is prime.  *
+293 is prime.
+307 is prime.
+311 is prime.
+313 is prime.
+317 is prime.
+331 is prime.
+337 is prime.
+347 is prime.
+349 is prime.
+353 is prime.
+359 is prime.
+361 is prime.  *
+367 is prime.
+373 is prime.
+379 is prime.
+383 is prime.
+389 is prime.
+397 is prime.
+401 is prime.
+409 is prime.
+419 is prime.
+421 is prime.
+431 is prime.
+433 is prime.
+439 is prime.
+443 is prime.
+449 is prime.
+457 is prime.
+461 is prime.
+463 is prime.
+467 is prime.
+479 is prime.
+487 is prime.
+491 is prime.
+499 is prime.
+503 is prime.
+509 is prime.
+521 is prime.
+523 is prime.
+529 is prime.  *
+541 is prime.
+547 is prime.
+557 is prime.
+563 is prime.
+569 is prime.
+571 is prime.
+577 is prime.
+587 is prime.
+593 is prime.
+599 is prime.
+601 is prime.
+607 is prime.
+613 is prime.
+617 is prime.
+619 is prime.
+631 is prime.
+641 is prime.
+643 is prime.
+647 is prime.
+653 is prime.
+659 is prime.
+661 is prime.
+673 is prime.
+677 is prime.
+683 is prime.
+691 is prime.
+701 is prime.
+709 is prime.
+719 is prime.
+727 is prime.
+733 is prime.
+739 is prime.
+743 is prime.
+751 is prime.
+757 is prime.
+761 is prime.
+769 is prime.
+773 is prime.
+787 is prime.
+797 is prime.
+809 is prime.
+811 is prime.
+821 is prime.
+823 is prime.
+827 is prime.
+829 is prime.
+839 is prime.
+841 is prime.  *
+853 is prime.
+857 is prime.
+859 is prime.
+863 is prime.
+877 is prime.
+881 is prime.
+883 is prime.
+887 is prime.
+907 is prime.
+911 is prime.
+919 is prime.
+929 is prime.
+937 is prime.
+941 is prime.
+947 is prime.
+953 is prime.
+961 is prime.  *
+967 is prime.
+971 is prime.
+977 is prime.
+983 is prime.
+991 is prime.
+997 is prime.
+The desired output is the actual output without those lines with "*" marks.
+-----*****-----
+Trace the bug:
+Use the GDB, type "gdb primeNumer".
+First we need to 'break divides_evenly' because the function is_prime() must use some loop structures 
+and call divides_evenly(factor, number) to see if the number can be divided by the factor. And by 
+setting this breakpoint we can trace the stack every time the function is called. 
+By typing `run`, the program starts running in gdb.
+Without stopping, the program prints 
+2 is prime.
+3 is prime.
+4 is prime.
+
+Then the programs stops at
+Breakpoint 1, divides_evenly (divisor=2, value=5)
+at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+
+This reveals that n, when it equals 2, 3 or 4, the condition inside the loop is not met. Further excutation gives:
+
+Breakpoint 1, divides_evenly (divisor=2, value=5) at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+(gdb) continue
+Continuing.
+5 is prime.
+
+Breakpoint 1, divides_evenly (divisor=2, value=6)
+at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+(gdb)
+Continuing.
+
+Breakpoint 1, divides_evenly (divisor=2, value=7)
+at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+(gdb)
+Continuing.
+7 is prime.
+
+Breakpoint 1, divides_evenly (divisor=2, value=8)
+at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+(gdb)
+Continuing.
+
+Breakpoint 1, divides_evenly (divisor=2, value=9)
+at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+(gdb)
+Continuing.
+9 is prime.
+
+Breakpoint 1, divides_evenly (divisor=2, value=10)
+at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+(gdb)
+Continuing.
+
+Breakpoint 1, divides_evenly (divisor=2, value=11)
+at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+(gdb)
+Continuing.
+
+Breakpoint 1, divides_evenly (divisor=3, value=11)
+at primeNumber.c:67
+67          multiple = (value / divisor) * divisor;
+(gdb)
+Continuing.
+11 is prime.
+.
+.
+.
+
+From the output, first we can look at the calls of divides_evenly() or primes (7 and 11 
+for example). is_prime() calls divides_evenly from divides_evenly(2, n) to 
+divides_evenly(⌈sqrt(n)⌉ - 1, n).
+-----*****-----
+Analysis of the bug:
+This code will correctly classify composite numbers that are not squares of prime numbers 
+because they will have some factors before ⌈sqrt(n)⌉ and can thus be correctly ruled out. 
+But when it comes to squares of prime numbers, their only factor is ⌈sqrt(n)⌉, which is 
+not tested in the loop, thus causing the bug. As for n = 2, 3, 4, since ⌈sqrt(4)⌉ = ⌈sqrt(3)⌉ 
+= ⌈sqrt(2)⌉, the loop is not even executed.
+
+So, we can know that there is something wrong in the condition of the loop in the is_prime function. 
+I think the condition of loop is written as "num > divisor * divisor". The correct condition is 
+"num >= divisor *2".
+===========================================================
+(III) sort
+Identifying the bug:
+Test the case “20     1 22 3 45 51 96 117 18 29 13 9 100 41 23 12 99 15 19 58 97”
+Output: 1 3 9 12 13 15 18 19 22 23 29 41 41 45 51 58 96 97 99 100
+       Or 1 3 9 12 13 15 18 19 22 23 29 41 45 51 58 96 96 97 99 100
+       Or 1 3 9 12 13 15 18 19 22 23 29 41 45 51 58 96 97 99 100 100
+Desired output: 1 3 9 12 13 15 18 19 22 23 29 41 45 51 58 96 97 99 100 117
+
+Test the case “6    5 1 6 3 49 63”
+Output: 1 3 5 5 6 49  or   1 1 3 5 6 49  or   1 3 5 6 6 49
+Desired output: 1 3 5 6 49 63
+
+Test the case “3   5 1 6”
+Output:  1 1 5  or   1 5 5
+Desired output: 1 5 6
+-----*****-----
+Trace the bug:
+For convenience, I use “ 4    3 49 51 63” as input.
+Set breakpoint at swap by typing “break swap”
+Typing “r test1.txt”, and “continue” for several times, until it is the case that we should swap the largest number(in the first location) and the last location.
+It shows that “Breakpoint 4, swap (a=0x5555557584a0, b=0x5555557584b0) at sort.c:4
+4	int t = *a;”
+Then typing “print *a”  “print *b” “ print a” “print b”
+We get “$21 = 63” “$22 = 63” “$23 = (int *) 0x5555557584a0” “$24 = (int *) 0x5555557584b0”
+-----*****-----
+Analysis of the bug:
+We can find that the location is “a0” and “b0”, which differ 16. However, there are only four numbers, so the location should be “a0” and “ac”. 
+So, I think there is something bug in the program of swapping the largest number and the last number. 
+Maybe the index number of array is wrong. For example, using arr[i+1] instead of arr[i]. The code may be like
+"swap(arr, arr+n);", but it shoud be "swap(arr, arr + n - 1);" The reason is also probably that the program decrement n between heapify and swap,
+which should be before or after heapify and swap.
+
+
